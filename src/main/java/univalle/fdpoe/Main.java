@@ -10,7 +10,7 @@ public class Main {
             @Override
             public void run() {
                 JFrame frame = new Ventana();
-                frame.setSize(500,600);
+                frame.setSize(500,550);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
                 frame.addWindowListener(new WindowAdapter() {
