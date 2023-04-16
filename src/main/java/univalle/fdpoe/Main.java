@@ -1,3 +1,17 @@
+/*
+  ____                             _  ___       _   _      ____
+ / ___|  __ _ _ __ ___  _   _  ___| |/ _ \ _ __| |_(_)____/ ___|
+ \___ \ / _` | '_ ` _ \| | | |/ _ \ | | | | '__| __| |_  /\___ \
+  ___) | (_| | | | | | | |_| |  __/ | |_| | |  | |_| |/ /  ___) |
+ |____/ \__,_|_| |_| |_|\__,_|\___|_|\___/|_|   \__|_/___||____/
+ Creado por: Samuel Ortiz Sarasti (202127049)
+ Para el curso de Fundamentos de Programación Orientada a Eventos
+ Mini Proyecto 2
+ Creación de un Cuestionario, con su respectiva GUI y funcionalidad
+ Domingo 16 de Abril de 2023
+ Disponible en: https://github.com/SamuelOrtizS/MiniProyecto2
+ */
+
 package univalle.fdpoe;
 
 import javax.swing.*;
