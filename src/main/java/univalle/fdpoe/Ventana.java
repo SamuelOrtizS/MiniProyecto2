@@ -1,8 +1,15 @@
 package univalle.fdpoe;
 
 import javax.swing.*;
-import java.util.ArrayList;
+import java.awt.*;
+import java.util.*;
+import java.util.List;
 
+/**
+ * Clase que extiende JFrame y contiene los diferentes elementos del programa
+ * @author SamuelOrtizS
+ * @version 16/04/2023/A
+ */
 public class Ventana extends JFrame {
     private JTabbedPane tpPaneles;
     private JPanel panel1;
@@ -11,7 +18,7 @@ public class Ventana extends JFrame {
     private JPanel panelEstadisticas;
     private JButton buttonGuardar;
     private JButton buttonProcesarDatos;
-    private JTextPane textPane1;
+    private JTextPane tpResultados;
     private JTextField tfIdentificacion;
     private JTextField tfNombre;
     private JSlider sliderEdad;
@@ -38,8 +45,24 @@ public class Ventana extends JFrame {
     private JRadioButton rButtonPropios;
     private JRadioButton rButtonBecaFundacion;
     private JRadioButton rButtonBecaGobierno;
+    private JLabel labelID;
+    private JLabel labelNombre;
+    private JLabel lEdad;
+    private JLabel lNumHijos;
+    private JLabel labelDepartamento;
+    private JLabel labelMunicipio;
+    private JLabel labelCasa;
+    private JLabel labelHobbies;
+    private JLabel labelProfesion;
+    private JLabel labelNivel;
+    private JLabel labelPosgrado;
+    private JLabel labelPosgradoDonde;
+    private JLabel labelPosgradoRecursos;
     ArrayList<Persona> aPers;
 
+    /**
+     * Constructor de la ventana
+     */
     public Ventana() {
         super("Cuestionario");
         setContentPane(panel1);
@@ -56,10 +79,10 @@ public class Ventana extends JFrame {
                 labelEdad.setText(sliderEdad.getValue() + " años");
         });
 
-        //Malcontent el numero de hijos entre 0 y 10, con incrementos de 1 en 1
+        //El control para el número de hijos se mantiene entre 0 y 10, con incrementos de 1 en 1
         spinnerNumHijos.setModel(new SpinnerNumberModel(0,0,10,1));
 
-        //Arreglos que crean el combobox para cada departamento
+        //Arreglos que contiene el modelo para el combobox para cada departamento
         String[] aCundinamarca = new String[3];
         aCundinamarca[0] = "Bogotá";
         aCundinamarca[1] = "Soacha";
@@ -85,7 +108,7 @@ public class Ventana extends JFrame {
         aAtlantico[1] = "Soledad";
         aAtlantico[2] = "Malambo";
 
-        //Creo los combobox a partir del departamento seleccionado y lo inicializo con el primer departamento
+        //Cambio el modelo del combobox a partir del departamento seleccionado y lo inicializo con el primer departamento
         cbMunNacimiento.setModel(new DefaultComboBoxModel(aCundinamarca));
 
         cbDepNacimiento.addItemListener(e -> {
@@ -112,6 +135,7 @@ public class Ventana extends JFrame {
                     cbMunNacimiento.setModel(modelo);
                 }
             }
+
         });
 
         //Deshabilito al inicio los botones de posgrado
@@ -140,9 +164,18 @@ public class Ventana extends JFrame {
                 rButtonBecaFundacion.setEnabled(false);
             }
         });
+
+        //Asigno las funcionalidades de los botones Guardar y Procesar Datos
         buttonGuardar.addActionListener(e -> guardarDatos());
         buttonProcesarDatos.addActionListener(e -> procesarDatos());
+
+        //Personalización de la interfaz
+        personalizacion();
     }
+
+    /**
+     * Método de uso interno que contiene la funcionalidad del botón Guardar
+     */
     public void guardarDatos(){
         try {
             //Verifico que se han ingresado todos los datos
@@ -197,13 +230,13 @@ public class Ventana extends JFrame {
                     else if (rButtonBecaFundacion.isSelected())
                         per.setRecursosPosgrado(rButtonBecaFundacion.getText());
                 }
-                //Agrego la nueva persona al arreglo dinamico de personas
+                //Agrego la nueva persona al arreglo dinámico de personas
                 aPers.add(per);
 
                 //Opcion para imprimir en consola los datos guardados durante la depuracion del programa
                 //per.imprimirDatos();
 
-                //Habilito el boton de procesar datos y muestro un mensaje al usuario
+                //Habilito el botón de procesar datos y muestro un mensaje al usuario
                 buttonProcesarDatos.setEnabled(true);
                 JOptionPane.showMessageDialog(null,"Registro almacenado");
 
@@ -238,14 +271,156 @@ public class Ventana extends JFrame {
                 JOptionPane.showMessageDialog(null, "Debe ingresar todos los datos");
             }
         } catch (Exception e) {
-            //Si se produce una excepcion esperada, en este caso una identificacion que no es un numero
+            //Si se produce una excepción esperada, en este caso una identificacion que no es un número
             if (e.getClass().equals(NumberFormatException.class)){
-                //Muestro un aviso al usuario para que lo corrija y no hago nada mas
+                //Muestro un aviso al usuario para que lo corrija y no hago nada más
                 JOptionPane.showMessageDialog(null,"La identificación debe ser un número");
             }
         }
     }
-    public void procesarDatos(){
 
+    /**
+     * Método de uso interno que contiene la funcionalidad del botón Procesar Datos
+     */
+    public void procesarDatos(){
+        //Variables locales para analizar los datos
+        int sumEdad = 0, sumHijos = 0, sumCasaPropia = 0, sumMasTresHobbies = 0, sumPosgradoExterior = 0, sumBecaGobierno = 0;
+        List lsDepartamentos = new ArrayList<String>();
+        List lsMunicipios = new ArrayList<String>();
+        List lsProfesiones = new ArrayList<String>();
+        List lsNivelAcademico = new ArrayList<String>();
+        String porDepartamento = "", porMunicipio = "", porProfesion = "", porNivelAcademico = "";
+
+        //Recorro el arreglo de personas para extraer los datos relevantes
+        for (Persona per2: aPers) {
+            sumEdad += per2.getEdad();
+            sumHijos += per2.getNumHijos();
+            lsDepartamentos.add(per2.getDepartamentoNacimiento());
+            lsMunicipios.add(per2.getMunicipioNacimiento());
+            if (per2.isCasaPropia()) sumCasaPropia += 1;
+            if (per2.getHobbies().size() > 3) sumMasTresHobbies += 1;
+            lsProfesiones.add(per2.getProfesion());
+            lsNivelAcademico.add(per2.getNivelAcademico());
+            if (per2.getNivelAcademico().equals("Posgrado")) {
+                if (per2.getDondePosgrado().equals("Exterior")) sumPosgradoExterior += 1;
+                if (per2.getRecursosPosgrado().equals("Beca del gobierno")) sumBecaGobierno += 1;
+            }
+        }
+
+        //Creo conjuntos y listas ordenadas sin duplicados a partir de las listas
+        Set<String> cjDepartamentos = new HashSet<String>(lsDepartamentos);
+        Set<String> cjMunicipios = new HashSet<String>(lsMunicipios);
+        Set<String> cjProfesiones = new HashSet<String>(lsProfesiones);
+        Set<String> cjNivelAcademico = new HashSet<String>(lsNivelAcademico);
+
+        List<String> lsDepartamentosSinDuplicados = new ArrayList<>(cjDepartamentos);
+        List<String> lsMunicipiosSinDuplicados = new ArrayList<>(cjMunicipios);
+        List<String> lsProfesionesSinDuplicados = new ArrayList<>(cjProfesiones);
+        List<String> lsNivelAcademicoSinDuplicados = new ArrayList<>(cjNivelAcademico);
+
+        Collections.sort(lsDepartamentosSinDuplicados);
+        Collections.sort(lsMunicipiosSinDuplicados);
+        Collections.sort(lsProfesionesSinDuplicados);
+        Collections.sort(lsNivelAcademicoSinDuplicados);
+
+        //Recorro las listas y determino las cantidades por categoría
+        for (String departamento: lsDepartamentosSinDuplicados) porDepartamento += departamento + ": " + Collections.frequency(lsDepartamentos, departamento) + "\n";
+        for (String municipio: lsMunicipiosSinDuplicados) porMunicipio += municipio + ": " + Collections.frequency(lsMunicipios, municipio) + "\n";
+        for (String profesion: lsProfesionesSinDuplicados) porProfesion += profesion + ": " + Collections.frequency(lsProfesiones, profesion) + "\n";
+        for (String nivelAcademico: lsNivelAcademicoSinDuplicados) porNivelAcademico += nivelAcademico + ": " + Collections.frequency(lsNivelAcademico, nivelAcademico) + "\n";
+
+        //Muestro los resultados de procesar los datos en el panel de texto
+        tpResultados.setText(
+                "RESULTADOS" +
+                "\nNúmero de encuestados: " + aPers.size() +
+                "\nPromedio de edad: " + (sumEdad/aPers.size()) +
+                "\nPromedio de hijos: " + (sumHijos/aPers.size()) +
+                "\nPersonas por departamento:\n" + porDepartamento +
+                "Personas por municipio:\n" + porMunicipio +
+                "Personas con casa propia: " + sumCasaPropia +
+                "\nPersonas con más de tres hobbies: " + sumMasTresHobbies +
+                "\nPersonas por profesión:\n" + porProfesion +
+                "Personas por nivel académico:\n" + porNivelAcademico +
+                "Personas posgrado en el exterior:" + sumPosgradoExterior +
+                "\nPersonas con becas del gobierno:" + sumBecaGobierno
+        );
+
+        //Muestro la pestaña del panel y la enfoco
+        tpPaneles.setSelectedIndex(2);
+        tpResultados.requestFocus();
+    }
+
+    /**
+     * Método de uso interno que contiene la personalización del programa
+     */
+    private void personalizacion(){
+        //Uso un tono de azul como color principal para transmitir calma y seguridad en el manejo del programa y la información que contiene
+        Color colorPrincipal = new Color(55, 73, 109);
+        //Uso un tono de verde como color secundario por ser análogo del principal y enfatizar el botón de guardado como algo positivo
+        Color colorSecundario = new Color(93, 168, 100);
+        //Diferentes fuentes para los elementos de la interfaz
+        Font fuenteTitulos = new Font("JetBrains Mono",Font.BOLD,13);
+        Font fuenteSubtitulos = new Font("JetBrains Mono",Font.BOLD,12);
+        Font fuenteRegular = new Font("Arial",Font.PLAIN,12);
+        Font fuenteConsolas = new Font("Consolas",Font.PLAIN,12);
+
+        //Cambio los colores de los botones y algunas de sus propiedades
+        buttonGuardar.setBackground(colorSecundario);
+        buttonGuardar.setForeground(Color.WHITE);
+        buttonGuardar.setFocusPainted(false);
+        buttonGuardar.setBorderPainted(false);
+
+        buttonProcesarDatos.setBackground(colorPrincipal);
+        buttonProcesarDatos.setForeground(Color.WHITE);
+        buttonProcesarDatos.setFocusPainted(false);
+        buttonProcesarDatos.setBorderPainted(false);
+
+        //Asigno las fuentes
+        tpPaneles.setFont(fuenteTitulos);
+        labelEdad.setFont(fuenteSubtitulos);
+        labelID.setFont(fuenteSubtitulos);
+        labelNombre.setFont(fuenteSubtitulos);
+        lEdad.setFont(fuenteSubtitulos);
+        lNumHijos.setFont(fuenteSubtitulos);
+        labelDepartamento.setFont(fuenteSubtitulos);
+        labelMunicipio.setFont(fuenteSubtitulos);
+        labelCasa.setFont(fuenteSubtitulos);
+        labelHobbies.setFont(fuenteSubtitulos);
+        labelProfesion.setFont(fuenteSubtitulos);
+        labelNivel.setFont(fuenteSubtitulos);
+        labelPosgrado.setFont(fuenteSubtitulos);
+        labelPosgradoDonde.setFont(fuenteSubtitulos);
+        labelPosgradoRecursos.setFont(fuenteSubtitulos);
+
+        buttonGuardar.setFont(fuenteTitulos);
+        buttonProcesarDatos.setFont(fuenteTitulos);
+
+        tpResultados.setFont(fuenteConsolas);
+
+        tfIdentificacion.setFont(fuenteRegular);
+        tfNombre.setFont(fuenteRegular);
+        sliderEdad.setFont(fuenteRegular);
+        spinnerNumHijos.setFont(fuenteRegular);
+        cbDepNacimiento.setFont(fuenteRegular);
+        cbMunNacimiento.setFont(fuenteRegular);
+        rButtonCasaSi.setFont(fuenteRegular);
+        rButtonCasaNo.setFont(fuenteRegular);
+        chBHobbieTV.setFont(fuenteRegular);
+        chBHobbieRRSS.setFont(fuenteRegular);
+        chBHobbieEscMusica.setFont(fuenteRegular);
+        chBHobbieDeportes.setFont(fuenteRegular);
+        chBHobbieCine.setFont(fuenteRegular);
+        chBHobbieCompras.setFont(fuenteRegular);
+        cbProfesion.setFont(fuenteRegular);
+        rButtonBachiller.setFont(fuenteRegular);
+        rButtonTecnico.setFont(fuenteRegular);
+        rButtonTecnologia.setFont(fuenteRegular);
+        rButtonPregrado.setFont(fuenteRegular);
+        rButtonPosgrado.setFont(fuenteRegular);
+        rButtonColombia.setFont(fuenteRegular);
+        rButtonExterior.setFont(fuenteRegular);
+        rButtonPropios.setFont(fuenteRegular);
+        rButtonBecaGobierno.setFont(fuenteRegular);
+        rButtonBecaFundacion.setFont(fuenteRegular);
     }
 }

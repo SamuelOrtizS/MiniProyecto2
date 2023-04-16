@@ -4,6 +4,11 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * Clase principal que ejecuta el programa
+ * @author SamuelOrtizS
+ * @version 16/04/2023/A
+ */
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {

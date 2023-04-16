@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * Esta clase define objetos que representan Personas y contienen diferentes datos acerca de la persona
  * @author SamuelOrtizS
- * @version 15/04/2023/A
+ * @version 16/04/2023/A
  */
 public class Persona {
     private int id, edad, numHijos;
@@ -38,7 +38,7 @@ public class Persona {
      * Constructor para una Persona definiendo sus datos
      * @param id Entero que define el número de identificación de la Persona
      * @param edad Entero que define la edad en años de la Persona
-     * @param numHijos Entero que define el numero de hijos de la persona
+     * @param numHijos Entero que define el número de hijos de la persona
      * @param nombre Cadena que define el nombre de la persona
      * @param departamentoNacimiento Cadena que define el departamento de nacimiento de la persona
      * @param municipioNacimiento Cadena que define el municipio de nacimiento de la persona

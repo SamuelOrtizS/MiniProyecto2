@@ -5,7 +5,11 @@
     <constraints>
       <xy x="20" y="20" width="507" height="582"/>
     </constraints>
-    <properties/>
+    <properties>
+      <autoscrolls value="false"/>
+      <focusTraversalPolicyProvider value="false"/>
+      <focusable value="true"/>
+    </properties>
     <border type="none"/>
     <children>
       <tabbedpane id="bcb37" binding="tpPaneles">
@@ -15,7 +19,10 @@
           </grid>
         </constraints>
         <properties/>
-        <border type="none"/>
+        <border type="none">
+          <font/>
+          <title-color color="-2104859"/>
+        </border>
         <children>
           <grid id="824a9" binding="panelDatosPersonales" layout-manager="GridLayoutManager" row-count="11" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
@@ -25,11 +32,12 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="5dd49" class="javax.swing.JLabel">
+              <component id="5dd49" class="javax.swing.JLabel" binding="labelID">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <font name="JetBrains Mono" size="12" style="1"/>
                   <text value="Identificación"/>
                 </properties>
               </component>
@@ -51,15 +59,16 @@
                 </constraints>
                 <properties/>
               </component>
-              <component id="b9453" class="javax.swing.JLabel">
+              <component id="b9453" class="javax.swing.JLabel" binding="labelNombre">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <font name="JetBrains Mono" size="12" style="1"/>
                   <text value="Nombre"/>
                 </properties>
               </component>
-              <component id="6f9b1" class="javax.swing.JLabel">
+              <component id="6f9b1" class="javax.swing.JLabel" binding="lEdad">
                 <constraints>
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -67,7 +76,7 @@
                   <text value="Edad"/>
                 </properties>
               </component>
-              <component id="98e80" class="javax.swing.JLabel">
+              <component id="98e80" class="javax.swing.JLabel" binding="lNumHijos">
                 <constraints>
                   <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -114,7 +123,7 @@
                   <name value=""/>
                 </properties>
               </component>
-              <component id="93dd4" class="javax.swing.JLabel">
+              <component id="93dd4" class="javax.swing.JLabel" binding="labelDepartamento">
                 <constraints>
                   <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -128,7 +137,7 @@
                 </constraints>
                 <properties/>
               </component>
-              <component id="335a1" class="javax.swing.JLabel">
+              <component id="335a1" class="javax.swing.JLabel" binding="labelMunicipio">
                 <constraints>
                   <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -144,7 +153,7 @@
                   <text value="Sí"/>
                 </properties>
               </component>
-              <component id="dc927" class="javax.swing.JLabel">
+              <component id="dc927" class="javax.swing.JLabel" binding="labelCasa">
                 <constraints>
                   <grid row="6" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -168,7 +177,7 @@
                   <text value="TV"/>
                 </properties>
               </component>
-              <component id="1829f" class="javax.swing.JLabel">
+              <component id="1829f" class="javax.swing.JLabel" binding="labelHobbies">
                 <constraints>
                   <grid row="8" column="0" row-span="3" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -226,7 +235,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="99777" class="javax.swing.JLabel">
+              <component id="99777" class="javax.swing.JLabel" binding="labelProfesion">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -234,7 +243,7 @@
                   <text value="Profesión"/>
                 </properties>
               </component>
-              <component id="435a0" class="javax.swing.JLabel">
+              <component id="435a0" class="javax.swing.JLabel" binding="labelNivel">
                 <constraints>
                   <grid row="1" column="0" row-span="5" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -242,7 +251,7 @@
                   <text value="Nivel Acádemico"/>
                 </properties>
               </component>
-              <component id="26884" class="javax.swing.JLabel">
+              <component id="26884" class="javax.swing.JLabel" binding="labelPosgrado">
                 <constraints>
                   <grid row="6" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -250,7 +259,7 @@
                   <text value="&lt;html&gt;Si seleccionó posgrado responda&lt;br&gt;las siguientes preguntas:&lt;/html&gt;"/>
                 </properties>
               </component>
-              <component id="50e8f" class="javax.swing.JLabel">
+              <component id="50e8f" class="javax.swing.JLabel" binding="labelPosgradoDonde">
                 <constraints>
                   <grid row="7" column="0" row-span="2" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -317,7 +326,7 @@
                   <text value="Posgrado"/>
                 </properties>
               </component>
-              <component id="1c5db" class="javax.swing.JLabel">
+              <component id="1c5db" class="javax.swing.JLabel" binding="labelPosgradoRecursos">
                 <constraints>
                   <grid row="9" column="0" row-span="3" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -382,7 +391,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="87953" class="javax.swing.JTextPane" binding="textPane1" default-binding="true">
+                  <component id="87953" class="javax.swing.JTextPane" binding="tpResultados">
                     <constraints/>
                     <properties/>
                   </component>
@@ -399,6 +408,7 @@
           </grid>
         </constraints>
         <properties>
+          <hideActionText value="false"/>
           <text value="Guardar"/>
         </properties>
       </component>
