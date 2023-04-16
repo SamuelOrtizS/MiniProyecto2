@@ -160,4 +160,21 @@ public class Persona {
     public void setNumHijos(int numHijos) {
         this.numHijos = numHijos;
     }
+    public void imprimirDatos(){
+        System.out.println("\nid: " + id);
+        System.out.println("\nnombre: " + nombre);
+        System.out.println("\nedad: " + edad);
+        System.out.println("\nnumHijos: " + numHijos);
+        System.out.println("\ndepartamentoNacimiento: " + departamentoNacimiento);
+        System.out.println("\nmunicipioNacimiento: " + municipioNacimiento);
+        System.out.println("\ncasaPropia: " + casaPropia);
+        System.out.println("\nHobbies:");
+        for (String hobby : Hobbies) System.out.println("\n" + hobby);
+        System.out.println("\nprofesion: " + profesion);
+        System.out.println("\nnivelAcademico: " + nivelAcademico);
+        if (nivelAcademico.equals("Posgrado")){
+            System.out.println("\ndondePosgrado: " + dondePosgrado);
+            System.out.println("\nrecursosPosgrado: " + recursosPosgrado);
+        }
+    }
 }

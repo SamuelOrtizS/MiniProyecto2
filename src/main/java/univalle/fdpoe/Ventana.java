@@ -1,12 +1,6 @@
 package univalle.fdpoe;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 public class Ventana extends JFrame {
@@ -45,7 +39,6 @@ public class Ventana extends JFrame {
     private JRadioButton rButtonBecaFundacion;
     private JRadioButton rButtonBecaGobierno;
     ArrayList<Persona> aPers;
-    private Persona per;
 
     public Ventana() {
         super("Cuestionario");
@@ -56,17 +49,14 @@ public class Ventana extends JFrame {
         aPers = new ArrayList<Persona>();
 
         //Cambio el mensaje de edad de acuerdo con el slider
-        sliderEdad.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                if (sliderEdad.getValue() == 1)
-                    labelEdad.setText("" + sliderEdad.getValue() + " año");
-                else
-                    labelEdad.setText("" + sliderEdad.getValue() + " años");
-            }
+        sliderEdad.addChangeListener(e -> {
+            if (sliderEdad.getValue() == 1)
+                labelEdad.setText(sliderEdad.getValue() + " año");
+            else
+                labelEdad.setText(sliderEdad.getValue() + " años");
         });
 
-        //Mantengo el numero de hijos entre 0 y 10, con incrementos de 1 en 1
+        //Malcontent el numero de hijos entre 0 y 10, con incrementos de 1 en 1
         spinnerNumHijos.setModel(new SpinnerNumberModel(0,0,10,1));
 
         //Arreglos que crean el combobox para cada departamento
@@ -98,23 +88,26 @@ public class Ventana extends JFrame {
         //Creo los combobox a partir del departamento seleccionado y lo inicializo con el primer departamento
         cbMunNacimiento.setModel(new DefaultComboBoxModel(aCundinamarca));
 
-        cbDepNacimiento.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                String departamentoSeleccionado = cbDepNacimiento.getSelectedItem().toString();
-                if (departamentoSeleccionado == "Cundinamarca"){
+        cbDepNacimiento.addItemListener(e -> {
+            String departamentoSeleccionado = cbDepNacimiento.getSelectedItem().toString();
+            switch (departamentoSeleccionado) {
+                case "Cundinamarca" -> {
                     DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>(aCundinamarca);
                     cbMunNacimiento.setModel(modelo);
-                } else if (departamentoSeleccionado == "Antioquia"){
+                }
+                case "Antioquia" -> {
                     DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>(aAntioquia);
                     cbMunNacimiento.setModel(modelo);
-                }else if(departamentoSeleccionado =="Valle del Cauca"){
+                }
+                case "Valle del Cauca" -> {
                     DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>(aValle);
                     cbMunNacimiento.setModel(modelo);
-                }else if (departamentoSeleccionado == "Santander"){
+                }
+                case "Santander" -> {
                     DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>(aSantander);
                     cbMunNacimiento.setModel(modelo);
-                }else if (departamentoSeleccionado == "Atlántico"){
+                }
+                case "Atlántico" -> {
                     DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>(aAtlantico);
                     cbMunNacimiento.setModel(modelo);
                 }
@@ -130,54 +123,42 @@ public class Ventana extends JFrame {
         rButtonBecaFundacion.setEnabled(false);
 
         //Los habilito si se selecciona Posgrado y deshabilito si no
-        rButtonPosgrado.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (rButtonPosgrado.isSelected()){
-                    rButtonColombia.setEnabled(true);
-                    rButtonExterior.setEnabled(true);
+        rButtonPosgrado.addItemListener(e -> {
+            if (rButtonPosgrado.isSelected()){
+                rButtonColombia.setEnabled(true);
+                rButtonExterior.setEnabled(true);
 
-                    rButtonPropios.setEnabled(true);
-                    rButtonBecaGobierno.setEnabled(true);
-                    rButtonBecaFundacion.setEnabled(true);
-                } else {
-                    rButtonColombia.setEnabled(false);
-                    rButtonExterior.setEnabled(false);
+                rButtonPropios.setEnabled(true);
+                rButtonBecaGobierno.setEnabled(true);
+                rButtonBecaFundacion.setEnabled(true);
+            } else {
+                rButtonColombia.setEnabled(false);
+                rButtonExterior.setEnabled(false);
 
-                    rButtonPropios.setEnabled(false);
-                    rButtonBecaGobierno.setEnabled(false);
-                    rButtonBecaFundacion.setEnabled(false);
-                }
+                rButtonPropios.setEnabled(false);
+                rButtonBecaGobierno.setEnabled(false);
+                rButtonBecaFundacion.setEnabled(false);
             }
         });
-        buttonGuardar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                guardarDatos();
-            }
-        });
-        buttonProcesarDatos.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                procesarDatos();
-            }
-        });
+        buttonGuardar.addActionListener(e -> guardarDatos());
+        buttonProcesarDatos.addActionListener(e -> procesarDatos());
     }
     public void guardarDatos(){
         try {
+            //Verifico que se han ingresado todos los datos
             if (!tfIdentificacion.getText().equals("") && !tfNombre.getText().equals("") && (rButtonCasaSi.isSelected() || rButtonCasaNo.isSelected()) && (rButtonBachiller.isSelected() || rButtonTecnico.isSelected() || rButtonTecnologia.isSelected() || rButtonPregrado.isSelected() || rButtonPosgrado.isSelected())) {
-                per = new Persona();
+                //Creo una nueva persona y le asigno los datos
+                Persona per = new Persona();
                 per.setId(Integer.parseInt(tfIdentificacion.getText()));
                 per.setNombre(tfNombre.getText());
                 per.setEdad(sliderEdad.getValue());
-                per.setNumHijos(Integer.valueOf(spinnerNumHijos.getValue().toString()));
+                per.setNumHijos(Integer.parseInt(spinnerNumHijos.getValue().toString()));
                 per.setDepartamentoNacimiento(cbDepNacimiento.getSelectedItem().toString());
                 per.setMunicipioNacimiento(cbMunNacimiento.getSelectedItem().toString());
                 if (rButtonCasaSi.isSelected())
                     per.setCasaPropia(true);
                 else if (rButtonCasaNo.isSelected())
                     per.setCasaPropia(false);
-
                 ArrayList<String> hobbies = new ArrayList<String>();
                 if (chBHobbieTV.isSelected())
                     hobbies.add(chBHobbieTV.getText());
@@ -216,11 +197,17 @@ public class Ventana extends JFrame {
                     else if (rButtonBecaFundacion.isSelected())
                         per.setRecursosPosgrado(rButtonBecaFundacion.getText());
                 }
+                //Agrego la nueva persona al arreglo dinamico de personas
                 aPers.add(per);
 
+                //Opcion para imprimir en consola los datos guardados durante la depuracion del programa
+                //per.imprimirDatos();
+
+                //Habilito el boton de procesar datos y muestro un mensaje al usuario
                 buttonProcesarDatos.setEnabled(true);
                 JOptionPane.showMessageDialog(null,"Registro almacenado");
 
+                //Limpio los controles
                 tfIdentificacion.setText("");
                 tfNombre.setText("");
                 sliderEdad.setValue(1);
@@ -247,11 +234,14 @@ public class Ventana extends JFrame {
                 rButtonBecaGobierno.setSelected(false);
                 rButtonBecaFundacion.setSelected(false);
             } else {
+                //Si falta un dato muestro un aviso al usuario sin hacer nada mas
                 JOptionPane.showMessageDialog(null, "Debe ingresar todos los datos");
             }
         } catch (Exception e) {
+            //Si se produce una excepcion esperada, en este caso una identificacion que no es un numero
             if (e.getClass().equals(NumberFormatException.class)){
-                JOptionPane.showMessageDialog(null,"La identificación debe ser un numero");
+                //Muestro un aviso al usuario para que lo corrija y no hago nada mas
+                JOptionPane.showMessageDialog(null,"La identificación debe ser un número");
             }
         }
     }
