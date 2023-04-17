@@ -29,7 +29,7 @@ public class Main {
             @Override
             public void run() {
                 JFrame frame = new Ventana();
-                frame.setSize(500,550);
+                frame.setSize(600,600);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
                 frame.addWindowListener(new WindowAdapter() {

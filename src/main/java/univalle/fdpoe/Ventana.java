@@ -2,6 +2,10 @@ package univalle.fdpoe;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.*;
 import java.util.List;
 
@@ -58,7 +62,12 @@ public class Ventana extends JFrame {
     private JLabel labelPosgrado;
     private JLabel labelPosgradoDonde;
     private JLabel labelPosgradoRecursos;
+    private JComboBox cbPersona;
+    private JLabel labelPersona;
+    private JTextPane tpResultadosPersona;
+    private JButton buttonBuscarPersona;
     ArrayList<Persona> aPers;
+    Vector<String> vNombres = new Vector<>();
 
     /**
      * Constructor de la ventana
@@ -169,6 +178,68 @@ public class Ventana extends JFrame {
         buttonGuardar.addActionListener(e -> guardarDatos());
         buttonProcesarDatos.addActionListener(e -> procesarDatos());
 
+        cbPersona.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                Persona personaSeleccionada = aPers.get(cbPersona.getSelectedIndex());
+                String casaPropia;
+                if (personaSeleccionada.isCasaPropia()) casaPropia = "Sí";
+                else casaPropia = "No";
+                String hobbies = "";
+                for (int i = 0; i < personaSeleccionada.getHobbies().size(); i++) {
+                    hobbies += personaSeleccionada.getHobbies().get(i) + "\n";
+                }
+                String posgrado = "";
+                if (personaSeleccionada.getNivelAcademico().equals("Posgrado")){
+                    posgrado += "Hizo el posgrado en: " + personaSeleccionada.getDondePosgrado() + "\n";
+                    posgrado += "Hizo el posgrado con recursos: " + personaSeleccionada.getRecursosPosgrado() + "\n";
+                }
+                tpResultadosPersona.setText(
+                        "Identificación: " + personaSeleccionada.getId() +
+                        "\nNombre: " + personaSeleccionada.getNombre() +
+                        "\nEdad: " + personaSeleccionada.getEdad() +
+                        "\nDepartamento de nacimiento: " + personaSeleccionada.getDepartamentoNacimiento() +
+                        "\nMunicipio de nacimiento: " + personaSeleccionada.getMunicipioNacimiento() +
+                        "\nCasa propia: " + casaPropia +
+                        "\nHobbies: \n" + hobbies +
+                        "Profesión: " + personaSeleccionada.getProfesion() +
+                        "\nNivel Académico: " + personaSeleccionada.getNivelAcademico() +
+                        "\n" + posgrado
+                );
+            }
+        });
+
+        buttonBuscarPersona.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Persona personaSeleccionada = aPers.get(cbPersona.getSelectedIndex());
+                String casaPropia;
+                if (personaSeleccionada.isCasaPropia()) casaPropia = "Sí";
+                else casaPropia = "No";
+                String hobbies = "";
+                for (int i = 0; i < personaSeleccionada.getHobbies().size(); i++) {
+                    hobbies += personaSeleccionada.getHobbies().get(i) + "\n";
+                }
+                String posgrado = "";
+                if (personaSeleccionada.getNivelAcademico().equals("Posgrado")){
+                    posgrado += "Hizo el posgrado en: " + personaSeleccionada.getDondePosgrado() + "\n";
+                    posgrado += "Hizo el posgrado con recursos: " + personaSeleccionada.getRecursosPosgrado() + "\n";
+                }
+                tpResultadosPersona.setText(
+                        "Identificación: " + personaSeleccionada.getId() +
+                                "\nNombre: " + personaSeleccionada.getNombre() +
+                                "\nEdad: " + personaSeleccionada.getEdad() +
+                                "\nDepartamento de nacimiento: " + personaSeleccionada.getDepartamentoNacimiento() +
+                                "\nMunicipio de nacimiento: " + personaSeleccionada.getMunicipioNacimiento() +
+                                "\nCasa propia: " + casaPropia +
+                                "\nHobbies: \n" + hobbies +
+                                "Profesión: " + personaSeleccionada.getProfesion() +
+                                "\nNivel Académico: " + personaSeleccionada.getNivelAcademico() +
+                                "\n" + posgrado
+                );
+            }
+        });
+
         //Personalización de la interfaz
         personalizacion();
     }
@@ -233,8 +304,14 @@ public class Ventana extends JFrame {
                 //Agrego la nueva persona al arreglo dinámico de personas
                 aPers.add(per);
 
+                //Guardo los nombres de las personas en el vector correspondiente
+                vNombres.add(per.getNombre());
+
+                //Actualizo el combobox de busqueda con las personas agregadas
+                cbPersona.setModel(new DefaultComboBoxModel(vNombres));
+
                 //Opcion para imprimir en consola los datos guardados durante la depuracion del programa
-                //per.imprimirDatos();
+                per.imprimirDatos();
 
                 //Habilito el botón de procesar datos y muestro un mensaje al usuario
                 buttonProcesarDatos.setEnabled(true);
